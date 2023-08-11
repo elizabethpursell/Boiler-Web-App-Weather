@@ -25,17 +25,3 @@ $(window).scroll(function() {
 $(".collapse-animation").click(function () {
     $(this.querySelector('.collapse-right')).toggleClass("collapse-down");
 })
-
-/*(async function ($) {
-    let nav_links = $('.nav-link');
-
-    let authenticated = await $.ajax({
-        url: "/authenticated",
-        type: "Get",
-    });
-    if(authenticated.success){
-        nav_links.removeClass('disabled');
-    } else {
-        nav_links.addClass('disabled');
-    }
-})(window.jQuery);*/
