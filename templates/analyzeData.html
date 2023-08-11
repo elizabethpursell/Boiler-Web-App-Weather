@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+    NURO Analysis | Diagnostics
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h2 id="error" class="text-center mt-4"></h2>
+    </div>
+    {% if authenticated %}
+        <div class="row">
+            <h1 class="bold x-center my-4 text-center">Enter Start and End Time to Analyze {{boiler_name}}</h1>
+        </div>
+        <div class="row">
+            <div class="x-center">
+                <form id="analyzeData_form">
+                    <div class="row row-cols-2 row-cols-lg-4">
+                        <label for="boiler_id_input" class="form-label" hidden>Enter Specific Boiler ID</label>
+                        <input type="text" id="boiler_id_input" name="boiler_id_input" class="form-control" value="{{boiler_id}}" hidden>
+                        <div class="col">
+                            <label for="start_time_input" class="form-label bold">Enter Start Time</label>
+                            <input type="datetime-local" id="start_time_input" name="start_time_input" class="form-control w-100" aria-required="true">
+                        </div>
+                        <div class="col">
+                            <label for="end_time_input" class="form-label bold">Enter End Time</label>
+                            <input type="datetime-local" id="end_time_input" name="end_time_input" class="form-control w-100" aria-required="true">
+                        </div>
+            
+                        <div class="col"><label class="form-label bold" for="selectInterval">Select Time Interval</label>
+                        <select class="form-select" id="selectInterval" data-width="100%" aria-required="true">
+                            <option selected></option>
+                            <option value="0.0001">All (roughly 5 seconds)</option>
+                            <option value="1">1 Minute</option>
+                            <option value="15">15 Minutes</option>
+                            <option value="30">30 Minutes</option>
+                            <option value="60">1 Hour</option>
+                        </select></div>
+                        <div class="col">
+                            <label for="submit_button" class="form-label" hidden>Submit</label>
+                            <input class="btn btn-primary my-3" type="submit" value="Submit" id="submit_button" style="margin:0; width: 100%;" aria-required="true">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="modal-btn" class="row mt-3"><div class="x-center"><button type="button" class="btn btn-primary" onclick="showSummary()" aria-label="Open Error Summary">Open Summary</button></div></div>
+        <div id="loadingSpinner" class="row m-5"><div class="x-center"><div class="spinner-border" style="width: 4rem; height: 4rem;"></div></div></div>
+        <div id="data" class="row"></div>
+        
+        <!-- error summary -->
+        <div class="modal fade" id="error-modal" tabindex="-1" role="dialog" aria-labelledby="error-modal-title" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered mx-auto">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title bold" id="error-modal-title">Error Summary
+                            <span class="fa-stack" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="Red Errors: over 25% error<br>Yellow Errors: under 25% error">
+                                <i class="fa-solid fa-circle fa-stack-1x text-secondary" role="img" aria-hidden="true"></i>
+                                <i class="fa-solid fa-info fa-2xs text-light fa-stack-1x" role="img" aria-hidden="true"></i>
+                            </span>
+                        </h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close Error Summary"></button>
+                    </div>
+                    <div class="modal-body" id="error-modal-body" style="padding: 0;"></div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" defer integrity="sha512-UXumZrZNiOwnTcZSHLOfcTs0aos2MzBWHXOHOuB0J/R44QB0dwY5JgfbvljXcklVf65Gc4El6RjZ+lnwd2az2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.0/chart.js" defer integrity="sha512-+POM1aKUkb5l91zDBDtxn0dlY5wazuQFtCXin/47Z+eE7AnMuFBMrNjkZA1P6m+infsMMSthlsPNh1rjBtAPBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ url_for('static', filename='js/analyzeData.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/generateGraph.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/graphFunctions.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/graphOptions.js') }}" defer></script>
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/static/css/analyzeData.css">
+{% endblock %}

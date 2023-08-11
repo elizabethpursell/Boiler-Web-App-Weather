@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+    NURO Analysis | Home
+{% endblock %}
+
+{% block content %}
+    {% if not authenticated %}
+        <div class="home-div">
+            <div class="x-center y-center-login">
+                <div class="login-bg" style="position: relative;">
+                    <img src="{{ url_for('static', filename='img/pk-logo-small.jpg') }}" alt="Patterson Kelley Logo" height="165" width="165" loading="lazy" decoding="async" style="margin: 10px"/>
+                    <h2 class="bg-dark white-font bold p-2">NURO Analysis</h2>
+                    <h5 class="mt-2 mb-2">Please login with your NURO Connect credentials</h5>
+                    <form id="login_form" class="needs-validation" novalidate>
+                        <div class="mx-auto text-center" style="width: 95% !important;">
+                            <div>
+                                <label for="email" class="form-label">NURO Connect Email:</label>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+                                <div class="invalid-feedback">Please provide a valid email.</div>
+                            </div>
+                            <div class="mt-1">
+                                <label for="password" class="form-label">NURO Connect Password:</label>
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                                <div class="invalid-feedback">Please provide a valid password.</div>
+                            </div>
+                            <div style="position: absolute; bottom: 10px; left: 0; right: 0;">
+                                <label for="submitButton" class="form-label" hidden>Submit Button</label>
+                                <input id="submitButton" class="btn btn-primary bold" type="submit" value="Submit">
+                            </div>
+                            <div id="loadingSpinner" class="row spinner-border" style="width: 4rem; height: 4rem; display: none; position: absolute; margin: 0 auto; bottom: 10px; left: 0; right: 0;"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        {% if firstName %}
+            <div class="row">
+                <h1 class="bold text-center mt-5">{{firstName}}, Welcome to NURO Analysis!</h1>
+            </div>
+            <div class="row">
+                <h5 class="text-center my-2">NURO Analysis is a web app that analyzes your boilers' data to identify errors and find solutions for your equipment.</h5>
+            </div>
+            <div class="row x-center mx-auto mt-4" style="max-width: 1800px;">
+                <div class="card col-sm-6 col-md-4 col-lg-3 mt-4 mx-4 mx-xl-1 mx-xxl-4" style="min-width: 300px;">
+                    <img class="card-img-top my-3 mx-auto home-img" src="{{ url_for('static', filename='img/boilers.jpg') }}" alt="Analyze Boilers Image" loading="lazy" decoding="async">
+                    <div class="card-body mx-auto text-center d-flex flex-column">
+                        <h5 class="card-title bold">Analyze Boilers</h5>
+                        <p class="card-text normal">Use the analysis feature to generate graphs and recommendations based on numerous tests.</p>
+                        <a href="{{ url_for('availableBoilersGet') }}" class="btn btn-primary mt-auto" role="button" aria-label="Analyze Boilers Button">Conduct Analysis &raquo</a>
+                    </div>
+                </div>
+                <div class="card col-sm-6 col-md-4 col-lg-3 mt-4 mx-4 mx-xl-1 mx-xxl-4" style="min-width: 300px;">
+                    <img class="card-img-top mx-auto my-3 home-img" src="{{ url_for('static', filename='img/nuro-connect-logo-small.jpg') }}" alt="NURO Connect Image" loading="lazy" decoding="async">
+                    <div class="card-body mx-auto text-center d-flex flex-column">
+                        <h5 class="card-title bold">NURO Connect</h5>
+                        <p class="card-text normal">NURO Analysis uses the data collected through NURO Connect to identify potential problems for your boilers.</p>
+                        <a href="https://app.nuroconnect.com/" target="_blank" class="btn btn-primary mt-auto" role="button" aria-label="NURO Connect Website Button">NURO Connect &raquo</a>
+                    </div>
+                </div>
+                <div class="card col-sm-6 col-md-4 col-lg-3 mt-4 mx-4 mx-xl-1 mx-xxl-4" style="min-width: 300px;">
+                    <img class="card-img-top mx-auto my-3 home-img" src="{{ url_for('static', filename='img/info.jpg') }}" alt="Help Image" loading="lazy" decoding="async">
+                    <div class="card-body mx-auto text-center d-flex flex-column">
+                        <h5 class="card-title bold">Help Guide</h5>
+                        <p class="card-text normal">Use this menu to navigate through the NURO Analysis app.</p>
+                        <a href="{{ url_for('help') }}" class="btn btn-primary mt-auto" role="button" aria-label="NURO Analysis Manual PDF Button">Open Page &raquo</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/home.js') }}" defer></script>
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}

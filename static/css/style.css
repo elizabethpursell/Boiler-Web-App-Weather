@@ -1,0 +1,301 @@
+.login-body{
+    background: url('../img/pk-bg.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#sidebar-btn{
+    display: none;
+}
+
+.white-font{
+    color: #f2f2f4;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.normal{
+    font-weight: normal;
+}
+
+.btn{
+    font-weight: 600;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    -ms-border-radius: 25px;
+    -o-border-radius: 25px;
+    border-radius: 25px;
+    padding: 10px 30px;
+}
+
+.btn:hover{
+    box-shadow: none;
+    -webkit-transition: all 200ms ease-in-out;
+    -ms-transition: all 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
+}
+
+.btn-primary{
+    background-color: #1c6eb7;
+    color: #fff;
+    border-color: #1c6eb7;
+    border-width: 3px;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active{
+    color: #1c6eb7;
+    background-color: white;
+    border-color: #1c6eb7;
+    text-decoration: none;
+}
+
+.btn-secondary{
+    background-color: #6c757d;
+    color: #fff;
+    border-color: #6c757d;
+    border-width: 3px;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active{
+    color: #6c757d;
+    background-color: white;
+    border-color: #6c757d;
+    text-decoration: none;
+}
+
+.btn-secondary:hover i,
+.btn-secondary:focus i,
+.btn-secondary:active i{
+    color: #6c757d;
+}
+
+.btn-dark{
+    background-color: black;
+    color: #fff;
+    border-color: black;
+    border-width: 3px;
+}
+
+.btn-dark:hover,
+.btn-dark:focus,
+.btn-dark:active{
+    color: black;
+    background-color: white;
+    border-color: black;
+    text-decoration: none;
+}
+
+.x-center{
+    display: flex;
+    justify-content: center;
+}
+
+.y-center{
+    display: flex;
+    align-items: center;
+    height: 75vh;
+}
+
+.collapse-right{
+    -moz-transition: all .1s linear;
+    -webkit-transition: all .1s linear;
+    transition: all .1s linear;
+}
+
+.collapse-down{
+    -moz-transform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
+    transform:rotate(90deg);
+}
+
+#sidebar-user{
+    font-size: 16pt;
+    line-height: 22pt;
+    word-wrap: break-word;
+    padding: 0;
+}
+
+#sidebar-company{
+    font-size: 11pt;
+    line-height: 11pt;
+    font-color: #cbcbcb;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 58px 0 0;
+    width: 260px;
+    z-index: 90;
+    overflow: auto;
+}
+
+.list-group-item{
+    background-color: #212529;
+    color: white;
+}
+
+.bg-black .list-group-item{
+    background-color: black;
+    color: white;
+}
+
+.list-group-item.active{
+    background-color: #1c6eb7;
+    border-color: #1c6eb7;
+}
+
+.bg-black .list-group-item.active{
+    border-top: 1px solid #212529;
+    border-bottom: 1px solid #212529;
+}
+
+a.list-group-item:hover,
+a.list-group-item:focus,
+a.list-group-item:active{
+    background-color: #f2f2f4;
+    color: #3e3e3e;
+    transition: background 0.5s;
+}
+
+.dropdown-menu{
+    background-color: #455963;
+    color: white;
+}
+
+.dropdown-item{
+    color: white !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item.active,
+.dropdown-item:active,
+.dropdown-item:focus{
+    color: #455963 !important;
+    background-color: white;
+}
+
+.sidebar-sticky{
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: 0.5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#navbar-image{
+    max-width: 250px; 
+    margin-top: -7px;
+}
+
+#logout-dialog{
+    max-width: 350px;
+}
+
+#error{
+    color: red;
+    font-weight: bold;
+}
+
+#pk-logo{
+    height: 25px;
+    width: 236px;
+}
+
+@media (min-width: 991.98px){
+    main{
+        margin-left: 270px;
+        margin-right: 10px;
+    }
+
+    #page-name{
+        position: absolute;
+        left: 270px;
+        margin-top: 10px;
+        display: inline;
+    }
+}
+
+@media (max-width: 991.98px){
+    main{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    #sidebar-btn{
+        display: block;
+        font-size: 22px;
+        padding: 2px 8px;
+        border-radius: 10px;
+    }
+
+    .sidebar{
+        width: 100%;
+    }
+
+    #page-name{
+        display: none;
+    }
+}
+
+@media (max-width: 320px){
+    #pk-logo{
+        height: 20px;
+        width: 188px;
+    }
+
+    #sidebar-btn{
+        font-size: 16px;
+        padding: 0px 4px;
+        border-radius: 6px;
+    }
+}
+
+.animation{
+    -webkit-animation-duration: 0.3s;
+    animation-duration: 0.3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes slideDownIn {
+    0% {
+        -webkit-transform: translateY(-20px);
+    }
+    100% { 
+        -webkit-transform: translateY(0);
+    }
+    0% {
+        -webkit-transform: translateY(-20);
+    }
+}
+
+@keyframes slideDownIn {
+    0% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+    0% {
+        transform: translateY(-20px);
+    }
+}
+
+.slideDownIn {
+    -webkit-animation-name: slideDownIn;
+    animation-name: slideDownIn;
+}

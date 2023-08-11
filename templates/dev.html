@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+    Dev
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h1>Dev Page</h1>
+    </div>
+    <div class="row">
+        <h2 id="error"></h2>
+    </div>
+    <div class="row">
+        <button class="btn btn-primary" id="devButton">Run</button>
+    </div>    
+    <div id="data" class="row"></div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/dev.js') }}" defer></script>
+{% endblock %}

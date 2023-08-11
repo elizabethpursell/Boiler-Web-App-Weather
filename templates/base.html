@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %} {% endblock %}</title>
+        
+        
+        <!-- favicon icon --> <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/pk-logo-small.png') }}">
+        <!-- bootstrap 5 css --> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <!-- main styles --> <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <!-- font awesome --> <script src="https://kit.fontawesome.com/99e0c3ba07.js" defer crossorigin="anonymous"></script>
+        <!-- source sans pro font --> <link href="https://fonts.googleapis.com/css?family=Source Sans Pro" defer rel="stylesheet">
+        <!-- jquery --> <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer referrerpolicy="no-referrer"></script>
+        <!-- popper js --> <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js" defer integrity="sha512-8cU710tp3iH9RniUh6fq5zJsGnjLzOWLWdZqBMLtqaoZUA6AWIE34lwMB3ipUNiTBP5jEZKY95SfbNnQ8cCKvA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- bootstrap 5 js --> <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.min.js" defer integrity="sha512-a6ctI6w1kg3J4dSjknHj3aWLEbjitAXAjLDRUxo2wyYmDFRcz2RJuQr5M3Kt8O/TtUSp8n2rAyaXYy1sjoKmrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- base js --> <script src="{{ url_for('static', filename='js/base.js') }}" defer></script>
+        
+        <!-- page specific js --> {% block script %} {% endblock %}
+        <!-- page specific css --> {% block style %} {% endblock %}
+    </head>
+    
+    {% if authenticated %}
+        <body style="font-family: 'Source Sans Pro', Arial, sans-serif;">
+            <main style="margin-top: 68px; overflow-x: hidden;">
+                <!-- side navigation -->
+                <nav id="sidebarMenu" class="sidebar bg-dark collapse d-lg-block" style="z-index: 100;">
+                    <div class="position-sticky">
+                        <div class="list-group list-group-flush mx-2 mt-4">
+                            <div class="list-group-item py-3 white-font">
+                                <div style="margin: 0 auto 0 -15px; overflow: auto;">
+                                    <p><img id="profile-img" src="{{ url_for('static', filename='img/default-sidebar.png') }}" class="rounded-circle" height="48" width="60" alt="Profile Image" loading="lazy" decoding="async" style="float: left; margin: 2px;"/>
+                                        <span id="sidebar-user">
+                                            {% if firstName %}
+                                                {{firstName}} 
+                                            {% else %}
+                                                Profile 
+                                            {% endif %}
+                                            {% if lastName %}
+                                                {{lastName}}
+                                            {% endif %}
+                                        </span>
+                                        {% if company %}
+                                            <br style="display:block; content:''; margin-top:-8px; line-height:0px;"><span id="sidebar-company" class="text-secondary">{{company}}</span>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                            {% if pageName == "Home" %}
+                                <a href="{{ url_for('home') }}" class="list-group-item py-3 d-flex active" aria-current="true" id="home" role="button" aria-label="Home Button">
+                                    <i class="fa-solid fa-house me-3 align-self-center" role="img" aria-hidden="true"></i>Home
+                                </a>
+                            {% else %}
+                                <a href="{{ url_for('home') }}" class="list-group-item py-3 d-flex" aria-current="false" id="home" role="button" aria-label="Home Button">
+                                    <i class="fa-solid fa-house me-3 align-self-center" role="img" aria-hidden="true"></i>Home
+                                </a>
+                            {% endif %}
+                            {% if pageName == "Available Boilers" or pageName == "Diagnostics"%}
+                                <a href="{{ url_for('availableBoilersGet') }}" class="list-group-item py-3 d-flex active" aria-current="true" id="availableBoilersLink" role="button" aria-label="Analyze Boilers Button">
+                                    <i class="fa-solid fa-chart-line me-3 align-self-center" role="img" aria-hidden="true"></i>Analyze Boilers
+                                </a>
+                            {% else %}
+                                <a href="{{ url_for('availableBoilersGet') }}" class="list-group-item py-3 d-flex" aria-current="false" id="availableBoilersLink" role="button" aria-label="Analyze Boilers Button">
+                                    <i class="fa-solid fa-chart-line me-3 align-self-center" role="img" aria-hidden="true"></i>Analyze Boilers
+                                </a>
+                            {% endif %}
+                            <a href="https://app.nuroconnect.com/" target="_blank" class="list-group-item py-3 d-flex" aria-current="false" role="button" aria-label="NURO Connect Website Button">
+                                <i class="fa-solid fa-microchip me-3 align-self-center" role="img" aria-hidden="true"></i>NURO Connect
+                            </a>
+                            {% if pageName == "My Profile" %}
+                                <a href="{{ url_for('profile') }}" class="list-group-item py-3 d-flex active" aria-current="true" id="profileLink" role="button" aria-label="Profile Button">
+                                    <i class="fa-solid fa-user me-3 align-self-center" role="img" aria-hidden="true"></i>My Profile
+                                </a>
+                            {% else %}
+                                <a href="{{ url_for('profile') }}" class="list-group-item py-3 d-flex" aria-current="false" id="profileLink" role="button" aria-label="Profile Button">
+                                    <i class="fa-solid fa-user me-3 align-self-center" role="img" aria-hidden="true"></i>My Profile
+                                </a>
+                            {% endif %}
+                            {% if pageName == "Help" %}
+                                <a class="list-group-item nav-link py-3 active d-flex collapse-animation" data-bs-toggle="collapse" href="#help-links" role="button" aria-expanded="true" aria-controls="help-links" aria-current="true" aria-label="NURO Analysis Help Page">
+                                    <i class="fa-solid fa-circle-question me-3 align-self-center" role="img" aria-hidden="true"></i>Help<i class="fa-solid fa-chevron-right ms-auto align-self-center collapse-right collapse-down" role="img" aria-hidden="true"></i>
+                                </a>
+                                <div id="help-links" class="list-group list-group-flush bg-black help-nav collapse show">
+                                    <a class="list-group-item list-group-item-action" onclick="toTable()">Table of Contents</a>
+                                    <a class="list-group-item list-group-item-action" onclick="collapseSidebar()" href="#features">Features</a>
+                                    <a class="list-group-item list-group-item-action" onclick="collapseSidebar()" href="#account">Account Information</a>
+                                    <a class="list-group-item list-group-item-action" onclick="collapseSidebar()" href="#analyze">Analyze Boilers</a>
+                                    <a class="list-group-item list-group-item-action" onclick="collapseSidebar()" href="#graphs">Graph Features</a>
+                                    <a class="list-group-item list-group-item-action" onclick="collapseSidebar()" href="#mobile">Mobile Support</a>
+                                    <a class="list-group-item list-group-item-action" onclick="collapseSidebar()" href="#test">Test Explanations</a>
+                                </div>
+                            {% else %}
+                                <a class="list-group-item py-3 d-flex" href="{{ url_for('help') }}" role="button" aria-label="NURO Analysis Help Page">
+                                    <i class="fa-solid fa-circle-question me-3 align-self-center" role="img" aria-hidden="true"></i>Help<i class="fa-solid fa-chevron-right ms-auto align-self-center"></i>
+                                </a>
+                            {% endif %}
+                            <a href="https://www.spx.com/privacy/" target="_blank" class="list-group-item py-3 d-flex" aria-current="false" role="button" aria-label="SPX Privacy Policy Website Button">
+                                <i class="fa-solid fa-shield-halved me-3 align-self-center" role="img" aria-hidden="true"></i>Privacy Policy
+                            </a>
+                            <a onclick="showConfirm()" class="list-group-item py-3 d-flex" aria-current="false" role="button" aria-label="Logout Button">
+                                <i class="fa-solid fa-right-from-bracket me-3 align-self-center" role="img" aria-hidden="true"></i>Logout
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+                
+                <!-- Navbar -->
+                <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="z-index: 100; background-color: #1c6eb7;">
+                    <div class="container-fluid">
+                        <button id="sidebar-btn" class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-expanded="false" aria-controls="sidebarMenu" aria-label="Sidebar Button">
+                            <i class="fas fa-bars white-font" role="img" aria-hidden="true"></i>
+                        </button>
+                        <a class="navbar-brand" href="{{ url_for('home') }}" role="button" aria-label="Home Button">
+                            <img src="{{ url_for('static', filename='img/pk_logo.png') }}" alt="Patterson Kelly Logo" loading="lazy" decoding="async" id="pk-logo"/>
+                        </a>
+                        {% if pageName %}
+                            <div id="page-name">
+                                <div class="d-flex">
+                                    <h4 class="bold white-font align-self-center">
+                                        {% if pageName == "Diagnostics" %}
+                                            <div style="display: inline;"><a class="btn btn-primary me-2" id="back-btn" role="button" aria-label="Back Button" onclick="window.history.back();" style="font-size: 20px; padding: 4px 10px;"><i class="fa-solid fa-arrow-left" role="img" aria-hidden="true"></i></a></div>
+                                        {% endif %}
+                                        {{ pageName }}
+                                    </h4>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="dropdown d-none d-lg-block">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="profile-menu-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Profile Dropdown Button">
+                                <img src="{{ url_for('static', filename='img/default-btn.png') }}" class="rounded-circle" height="32" width="40" alt="Profile Image" loading="lazy" decoding="async"/>
+                                    {% if firstName %}
+                                        {{firstName}} 
+                                    {% else %}
+                                        Profile 
+                                    {% endif %}
+                                    {% if lastName %}
+                                        {{lastName}}
+                                    {% endif %}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end mt-2 animation slideDownIn" aria-labelledby="profile-menu-btn" id="profile-menu">
+                                <li><a class="dropdown-item text-secondary" href="{{ url_for('profile') }}" role="button" aria-label="Profile Button">
+                                    <i class="fa-solid fa-user me-3" role="img" aria-hidden="true"></i><span>My Profile</span>
+                                </a></li>
+                                <li><a class="dropdown-item text-secondary" onclick="showConfirm()" role="button" aria-label="Logout Button">
+                                    <i class="fa-solid fa-right-from-bracket me-3" role="img" aria-hidden="true"></i><span>Logout</span>
+                                </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                
+                <!-- logout confirmation -->
+                <div class="modal fade" id="logout-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div id="logout-dialog" class="modal-dialog modal-dialog-centered mx-auto">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <h5 class="bold text-center my-4">Are you sure you want to logout?</h5>
+                                <div class="x-center mt-3">
+                                    <button class="btn btn-dark btn-confirm me-2" data-bs-dismiss="modal" aria-label="Cancel Logout">No</button>
+                                    <a class="btn btn-primary ms-2 button" href="{{ url_for('logout') }}" role="button" aria-label="Confirm Logout"><span>Yes</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    {% else %}
+        <body class="login-body" style="font-family: 'Source Sans Pro', Arial, sans-serif;" >
+            <main style="overflow-x: hidden;">
+    {% endif %}
+        <!-- main content -->
+            {% block content %} {% endblock %}
+        </main>
+    </body>
+</html>

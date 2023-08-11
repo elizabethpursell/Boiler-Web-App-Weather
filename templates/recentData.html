@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+    Recent Boiler Data
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h1>Enter Valid Boiler ID to Receive Latest Data</h1>
+    </div>
+    <div class="row">
+        <h2 id="error"></h2>
+    </div>
+    <div class="row">
+        <form id="recentData_form">
+            <label for="boiler_id_input" class="form-lable">Enter Specific Boiler ID</label>
+            <input type="text" id="boiler_id_input" name="boiler_id_input" class="form-control">
+            <input class="btn btn-primary my-3" type="submit" value="Submit">
+        </form>
+    </div>
+    <div id="data" class="row"></div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/recentData.js') }}" defer></script>
+{% endblock %}

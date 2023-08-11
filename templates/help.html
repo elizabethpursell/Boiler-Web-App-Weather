@@ -1,0 +1,845 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+    NURO Analysis | Help
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h2 id="error"></h2>
+    </div>
+    {% if authenticated %}
+        <div id="top" class="page-section mx-0 mx-sm-5">
+            <div class="mt-0 mt-sm-5 py-5 text-white rounded mx-auto" style="background-color: #004b87; max-width: 1600px;">
+                <div class="row px-5">
+                    <h1 class="bold">NURO Analysis Guide</h1>
+                    <p>Table of Contents</p>
+                    <hr class="my-4">
+                </div>
+                <div class="row justify-content-between mx-2 gy-4 gx-0 px-3 px-sm-5 d-flex align-items-center">
+                    <div class="col-12 col-xxl-7 pe-xxl-5 list-group list-group-flush contents-list">
+                        <a class="list-group-item list-group-item-action" href="#features">Features</a>
+                        <a class="list-group-item list-group-item-action" href="#account">Account Information</a>
+                        <a class="list-group-item list-group-item-action d-flex collapse-animation" data-bs-toggle="collapse" href="#analyze-links" role="button" aria-expanded="false" aria-controls="analyze-links">Analyze Boilers<i class="fa-solid fa-chevron-right ms-auto align-self-center collapse-right"></i></a>
+                        <div id="analyze-links" class="list-group list-group-flush bg-black collapse">
+                            <a class="list-group-item list-group-item-action" href="#analyze-init">Initializing Analysis</a>
+                            <a class="list-group-item list-group-item-action" href="#analyze-boilers">Available Boilers</a>
+                            <a class="list-group-item list-group-item-action" href="#analyze-time">Selecting Time Intervals</a>
+                            <a class="list-group-item list-group-item-action" href="#analyze-summary">Error Summary</a>
+                            <a class="list-group-item list-group-item-action" href="#analyze-tests">Test Cases</a>
+                            <a class="list-group-item list-group-item-action" href="#analyze-graphs">Generating Graphs</a>
+                        </div>
+                        <a class="list-group-item list-group-item-action d-flex collapse-animation" data-bs-toggle="collapse" href="#graphs-links" role="button" aria-expanded="false" aria-controls="graphs-links">Graph Features<i class="fa-solid fa-chevron-right ms-auto align-self-center collapse-right"></i></a>
+                        <div id="graphs-links" class="list-group list-group-flush bg-black collapse">
+                            <a class="list-group-item list-group-item-action" href="#graphs-tools">Crosshair and Tooltips</a>
+                            <a class="list-group-item list-group-item-action" href="#graphs-datasets">Dataset Popups</a>
+                            <a class="list-group-item list-group-item-action" href="#graphs-remove">Remove/Add Datasets</a>
+                            <a class="list-group-item list-group-item-action" href="#graphs-zoom">Zoom and Pan</a>
+                        </div>
+                        <a class="list-group-item list-group-item-action d-flex collapse-animation" data-bs-toggle="collapse" href="#mobile-links" role="button" aria-expanded="false" aria-controls="mobile-links">Mobile Support<i class="fa-solid fa-chevron-right ms-auto align-self-center collapse-right"></i></a>
+                        <div id="mobile-links" class="list-group list-group-flush bg-black collapse">
+                            <a class="list-group-item list-group-item-action" href="#mobile-sidebar">Sidebar Navigation</a>
+                            <a class="list-group-item list-group-item-action" href="#mobile-options">Graph Options</a>
+                            <a class="list-group-item list-group-item-action" href="#mobile-zoom">Zoom and Pan</a>
+                            <a class="list-group-item list-group-item-action" href="#mobile-hover">Hover Features</a>
+                        </div>
+                        <a class="list-group-item list-group-item-action" href="#test">Test Explanations</a>
+                    </div>
+                    <div class="col-12 col-xxl-5 d-flex align-items-center justify-content-center justify-content-xxl-end">
+                        <div class="card bg-dark" style="max-width: 550px;">
+                            <div class="row g-0">
+                                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                                    <img id="pdf-icon" src="{{ url_for('static', filename='img/help-pdf.PNG')}}" class="img-fluid rounded-start p-2" loading="lazy" decoding="async"/>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold">NURO Analysis Guide PDF</h4>
+                                        <p class="card-text">PDF version is available here</p>
+                                        <a href="{{ url_for('static', filename='pdf/NURO Analysis Guide.pdf') }}" target="_blank" class="btn btn-primary mt-auto" role="button" aria-label="Open PDF Button">Open PDF</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="features" class="page-section mx-0 mx-sm-5" style="padding-top: 68px; margin-top: -68px;">
+            <div class="mt-3 mt-sm-5 py-5 text-white rounded mx-auto" style="background-color: #004b87; max-width: 1600px;">
+                <div class="row mx-2 px-3 px-sm-5">
+                    <h1 class="bold text-center">Features</h1>
+                    <p class="text-center text-white-50">NURO Analysis is a web app that uses the data from NURO Connect to identify error points and develop solutions based on specific tests.</p>
+                </div>
+                <div class="row mx-2 px-3 px-xl-5 g-2">
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="card h-100" style="background-color: #004b87; border: 0 solid transparent;">
+                            <div class="card-body text-center">
+                                <i class="fa-solid fa-universal-access fa-5x align-self-center p-2" role="img" aria-hidden="true"></i>
+                                <h4 class="card-title bold">Complete Data Access</h4>
+                                <p class="card-text text-white-50 px-0 px-xl-3">Authorizes data analysis of boilers from all sites and time periods</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="card h-100" style="background-color: #004b87; border: 0 solid transparent;">
+                            <div class="card-body text-center">
+                                <i class="fa-solid fa-triangle-exclamation fa-5x align-self-center p-2" role="img" aria-hidden="true"></i>
+                                <h4 class="card-title bold">Error Diagnostics</h4>
+                                <p class="card-text text-white-50 px-0 px-xl-3">Conducts numerous tests to classify equipment errors and their urgencies</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="card h-100" style="background-color: #004b87; border: 0 solid transparent;">
+                            <div class="card-body text-center">
+                                <i class="fa-solid fa-eye fa-5x align-self-center p-2" role="img" aria-hidden="true"></i>
+                                <h4 class="card-title bold">Predictive Technology</h4>
+                                <p class="card-text text-white-50 px-0 px-xl-3">Highlights warning points where data is trending towards test failure</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="card h-100" style="background-color: #004b87; border: 0 solid transparent;">
+                            <div class="card-body text-center">
+                                <i class="fa-solid fa-arrow-up-right-dots fa-5x align-self-center p-2" role="img" aria-hidden="true"></i>
+                                <h4 class="card-title bold">Solution-Driven</h4>
+                                <p class="card-text text-white-50 px-0 px-xl-3">Provides error summaries to pinpoint causes and recommend solutions for test failures</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="card h-100" style="background-color: #004b87; border: 0 solid transparent;">
+                            <div class="card-body text-center">
+                                <i class="fa-solid fa-chart-column fa-5x align-self-center p-2" role="img" aria-hidden="true"></i>
+                                <h4 class="card-title bold">Data Visualization</h4>
+                                <p class="card-text text-white-50 px-0 px-xl-3">Generates graphs comparing relevant data and identifying error and warning points</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="card h-100" style="background-color: #004b87; border: 0 solid transparent;">
+                            <div class="card-body text-center">
+                                <i class="fa-solid fa-handshake fa-5x align-self-center p-2" role="img" aria-hidden="true"></i>
+                                <h4 class="card-title bold">NURO Connect</h4>
+                                <p class="card-text text-white-50 px-0 px-xl-3">Collaborates with NURO Connect to cultivate data transparency and error analysis</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="account" class="page-section mx-0 mx-sm-5" style="padding-top: 68px; margin-top: -68px;">
+            <div class="mt-3 mt-sm-5 py-5 text-white rounded mx-auto" style="background-color: #004b87; max-width: 1600px;">
+                <div class="row py-2 mx-2 px-3 px-sm-5">
+                    <h1 class="bold text-center">Account Information</h1>
+                    <p class="text-center text-white-50">NURO Analysis utilizes the same credentials as NURO Connect.</p>
+                </div>
+                <div class="row mx-2 px-3 px-xl-5 g-2">
+                    <div class="col-12 col-sm-6 d-flex align-items-center justify-content-center">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-6">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Profile</h4>
+                                        <p class="card-text">Use the button in the sidebar, the option in the profile dropdown, or the button below to access your account information.</p>
+                                        <a href="{{ url_for('profile') }}" class="btn btn-primary mt-auto" aria-current="false" id="profileLink" role="button" aria-label="Profile Button">My Profile</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/profile-help.png') }}" class="img-fluid rounded-end p-2" alt="Login Screen" loading="lazy" decoding="async"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 d-flex align-items-center justify-content-center">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-6">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Logging Out</h4>
+                                        <p class="card-text">Logout using the button in the sidebar, the option in the profile dropdown, or the button below.</p>
+                                        <button id="logout_button" class="btn btn-primary mt-auto" type="button" onClick="showConfirm()" aria-label="Logout Button">Logout</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/logout-help.png') }}" class="img-fluid rounded-end p-2" alt="Logout Screen" loading="lazy" decoding="async"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="analyze" class="page-section mx-0 mx-sm-5" style="padding-top: 68px; margin-top: -68px;">
+            <div class="mt-3 mt-sm-5 py-5 text-white rounded mx-auto" style="background-color: #004b87; max-width: 1600px;">
+                <div class="row py-2 mx-2 px-3 px-sm-5">
+                    <h1 class="bold text-center">Analyze Boilers</h1>
+                    <p class="text-center text-white-50">Use this section as a guide through the boiler analysis process.</p>
+                </div>
+                
+                <div class="row py-2 mx-2 px-3 px-xl-5 g-2">
+                    <div id="analyze-init" class="col-12 col-xxl-6 d-flex align-items-center justify-content-center" style="padding-top: 80px; margin-top: -68px;">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Initializing Analysis</h4>
+                                        <p class="card-text">
+                                            To open the Available Boilers page, press the blue "Conduct Analysis" button on the homepage or the "Analyze Boilers" option on the sidebar.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/init-help.png') }}" alt="Home Screen" class="img-fluid rounded-end p-2" loading="lazy" decoding="async"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="analyze-boilers" class="col-12 col-xxl-6 d-flex align-items-center justify-content-center" style="padding-top: 80px; margin-top: -68px;">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Available Boilers</h4>
+                                        <p class="card-text">
+                                            On the Analyze Boilers page, press the blue "Run Diagnostics" button under the desired boiler to open its Diagnostics page.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/boilers-help.png') }}" alt="Available Boilers Screen" class="img-fluid rounded-end p-2" loading="lazy" decoding="async"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="analyze-time" class="col-12 col-xxl-6 d-flex align-items-center justify-content-center" style="padding-top: 80px; margin-top: -68px;">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Selecting Time Intervals</h4>
+                                        <p class="card-text">
+                                            On the Diagnostics page, fill out the form with a start time, end time, and time interval to select the time period for analysis. 
+                                            The start time must be before the end time, and NURO Connect must have been connected during the time period. Press the blue
+                                            "Submit" button when the times have been entered.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/diagnostics-help.png') }}" alt="Diagnostics Screen" class="img-fluid rounded-end p-2" loading="lazy" decoding="async"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="analyze-summary" class="col-12 col-xxl-6 d-flex align-items-center justify-content-center" style="padding-top: 80px; margin-top: -68px;">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-7">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Error Summary
+                                            <button type="button" id="error-types-btn" aria-label="Error Types Popup" class="btn btn-secondary" data-bs-toggle="popover" data-bs-placement="top" data-bs-container="body" style="padding: 1px 8px;">
+                                                <i class="fa-solid fa-question" role="img" aria-hidden="true"></i>
+                                            </button>
+                                        </h4>
+                                        <div hidden>
+                                            <div id="error-types-popover" data-name="popover-options">
+                                                <h5 class="bold text-center">Error Types</h5>
+                                                <ul class="text-start">
+                                                    <li>
+                                                        <b>Red Errors</b>: These are from tests that have a failure rate of at least 25%. They are important to address as they are the main sources of
+                                                        error for the boiler.
+                                                    </li>
+                                                    <li>
+                                                        <b>Yellow Errors</b>: These are from tests that have a failure rate under 25% but over 0%. They are less urgent but can identify the impact of
+                                                        red errors on the performance of other parts of the boiler and can prevent further equipment error if monitored.
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <p class="card-text">
+                                            After the analysis is complete, a popup will open showing a summary of the test results. This will give suggestions 
+                                            on how to eliminate future errors, improve efficiency, and find potential solutions. Press the "x" button to close the popup. To open the summary
+                                            again, press the blue "Open Summary" button. The yellow errors are not shown by default. Press the "Yellow Errors" button to show these messages.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/summary-help.png') }}" alt="Error Summary Screen" class="img-fluid rounded-end p-2" loading="lazy" decoding="async"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="analyze-tests" class="col-12 col-xxl-6 d-flex align-items-center justify-content-center" style="padding-top: 80px; margin-top: -68px;">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Test Cases
+                                            <button type="button" id="test-types-btn" aria-label="Test Types Popup" class="btn btn-secondary" data-bs-toggle="popover" data-bs-placement="top" data-bs-container="body" style="padding: 1px 8px;">
+                                                <i class="fa-solid fa-question" role="img" aria-hidden="true"></i>
+                                            </button>
+                                        </h4>
+                                        <div hidden>
+                                            <div id="test-types-popover" data-name="popover-options">
+                                                <h5 class="bold text-center">Test Types</h5>
+                                                <ul class="text-start">
+                                                    <li><b>Red Tests</b>: These tests failed over 25% of the time and are the main source of inefficiency in the boiler.</li>
+                                                    <li>
+                                                        <b>Yellow Tests</b>: These tests failed under 25% of the time but did not pass 100%. They are often the byproduct of other red tests or are
+                                                        trending towards red. Check these tests to prevent future performance issues.
+                                                    </li>
+                                                    <li><b>Green Tests</b>: These tests had a 0% error.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <p class="card-text">
+                                            There are numerous tests to analyze the performance of the boiler. They compare specific datasets to determine if all parts of the boiler are working
+                                            efficiently.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/tests-help.png') }}" alt="Test Cases Screen" class="img-fluid rounded-end p-2" loading="lazy" decoding="async"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="analyze-graphs" class="col-12 col-xxl-6 d-flex align-items-center justify-content-center" style="padding-top: 80px; margin-top: -68px;">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Generating Graphs</h4>
+                                        <p class="card-text">
+                                            Press the grey "Generate Timeline Graph" button to open a test's graph. Press the grey "Generate Binary Graph" button to
+                                            show the pass/fail/warning graph that highlights the error and warning statuses. For further help, press the grey
+                                            question mark button.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/graphs-help.png') }}" alt="Graphs Screen" class="img-fluid rounded-end p-2" loading="lazy" decoding="async"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="graphs" class="page-section mx-0 mx-sm-5" style="padding-top: 68px; margin-top: -68px;">
+            <div class="mt-3 mt-sm-5 py-5 text-white rounded mx-auto" style="background-color: #004b87; max-width: 1600px;">
+                <div class="row py-2 mx-2 px-3 px-sm-5">
+                    <h1 class="bold text-center">Graph Features</h1>
+                    <p class="text-center text-white-50">Use these tools to easily visualize the data of each test.</p>
+                </div>
+                
+                <div class="row py-2 mx-2 px-3 px-xl-5 g-2">
+                    <div id="graphs-tools" class="col-12 col-xxl-6 d-flex align-items-center justify-content-center" style="padding-top: 80px; margin-top: -68px;">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Crosshair and Tooltips</h4>
+                                        <p class="card-text">
+                                            Hover over the graph to show a crosshair that highlights the data points for the selected date and time. This will also display a tooltip that shows
+                                            the labels, values, and colors for the datasets, as well as the test status for that point.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/crosshair-help.png') }}" class="img-fluid rounded-end p-2" alt="Crosshair Screen" loading="lazy" decoding="async"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="graphs-datasets" class="col-12 col-xxl-6 d-flex align-items-center justify-content-center" style="padding-top: 80px; margin-top: -68px;">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Dataset Popups</h4>
+                                        <p class="card-text">
+                                            Hover the dataset names on the legend to show the popup information for each dataset. Information includes error point conditions, warning point
+                                            thresholds, and axis usage.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/dataset-help.png') }}" class="img-fluid rounded-end p-2" alt="Dataset Popup Screen" loading="lazy" decoding="async" width="500" height="auto"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="graphs-remove" class="col-12 col-xxl-6 d-flex align-items-center justify-content-center" style="padding-top: 80px; margin-top: -68px;">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Remove/Add Datasets</h4>
+                                        <p class="card-text">
+                                            On the graph legend, press a dataset's name to hide its points. Press the dataset's name again to add the points back to the graph. This is useful to remove
+                                            warning points and only show error points, vice versa.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/remove-help.png') }}" class="img-fluid rounded-end p-2" alt="Remove Dataset Screen" loading="lazy" decoding="async" width="500" height="auto"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="graphs-zoom" class="col-12 col-xxl-6 d-flex align-items-center justify-content-center" style="padding-top: 80px; margin-top: -68px;">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Zoom and Pan</h4>
+                                        <p class="card-text">
+                                            To zoom in, drag the mouse over the desired values or scroll the mouse wheel. To pan across values while zoomed in, press CTRL and use the mouse to drag
+                                            to the desired points. Press the grey reset button to revert to the original graph.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/zoom-help.png') }}" class="img-fluid rounded-end p-2" alt="Zoom Graph Screen" loading="lazy" decoding="async" width="500" height="auto"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="mobile" class="page-section mx-0 mx-sm-5" style="padding-top: 68px; margin-top: -68px;">
+            <div class="mt-3 mt-sm-5 py-5 text-white rounded mx-auto" style="background-color: #004b87; max-width: 1600px;">
+                <div class="row py-2 mx-2 px-3 px-sm-5">
+                    <h1 class="bold text-center">Mobile Support</h1>
+                    <p class="text-center text-white-50">NURO Analysis supports mobile devices through some user interface modifications.</p>
+                </div>
+                
+                <div class="row py-2 mx-2 px-3 px-xl-5 g-2">
+                    <div id="mobile-sidebar" class="col-12 col-xxl-6 d-flex align-items-center justify-content-center" style="padding-top: 80px; margin-top: -68px;">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Sidebar Navigation</h4>
+                                        <p class="card-text">
+                                            Press the grey button in the top left corner to open the sidebar. The sidebar will help navigate around the site.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/sidebar-help.png') }}" alt="Sidebar Screen" class="img-fluid rounded-end p-2" loading="lazy" decoding="async"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="mobile-options" class="col-12 col-xxl-6 d-flex align-items-center justify-content-center" style="padding-top: 80px; margin-top: -68px;">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Graph Options</h4>
+                                        <p class="card-text">
+                                            Press the grey "Options" button of the desired test to open the graph dropdown. The "Generate Timeline Graph" option
+                                            opens the test graph. The "Generate Binary Graph" option opens the pass/fail/warning graph to easily see when the data fails the test.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/options-help.png') }}" alt="Graph Options Screen" class="img-fluid rounded-end p-2" loading="lazy" decoding="async"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="mobile-zoom" class="col-12 col-xxl-6 d-flex align-items-center justify-content-center" style="padding-top: 80px; margin-top: -68px;">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Zoom and Pan</h4>
+                                        <p class="card-text">
+                                            To zoom in/out, pinch the graph. To pan to other data points while zoomed in, drag across the graph.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/options-zoom.png') }}" alt="Mobile Zoom Screen" class="img-fluid rounded-end p-2" loading="lazy" decoding="async"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="mobile-hover" class="col-12 col-xxl-6 d-flex align-items-center justify-content-center" style="padding-top: 80px; margin-top: -68px;">
+                        <div class="card bg-dark text-white h-100">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <div class="card-body d-flex flex-column h-100 text-center">
+                                        <h4 class="card-title bold py-3">Hover Features</h4>
+                                        <p class="card-text">
+                                            All hover features are accessible for mobile through touch. Help popups can be opened with one press. The graph crosshair can be displayed by
+                                            pressing the desired point. Dataset popups and warning thresholds can be shown by double tapping the legend label. One tap would still remove/add
+                                            the dataset.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7 d-flex align-items-center justify-content-center">
+                                    <img src="{{ url_for('static', filename='img/hover-help.png') }}" alt="Mobile Hover Screen" class="img-fluid rounded-end p-2" loading="lazy" decoding="async"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="test" class="page-section mx-0 mx-sm-5" style="padding-top: 68px; margin-top: -68px;">
+            <div class="my-3 my-sm-5 py-5 text-white rounded mx-auto" style="background-color: #004b87; max-width: 1600px;">
+                <div class="row py-2 mx-2 px-3 px-sm-5">
+                    <h1 class="bold text-center">Test Explanations</h1>
+                    <p class="text-center text-white-50">Each test's error condition, cause, and importance can be found here.</p>
+                </div>
+                
+                <div id="test-table" class="row py-2 mx-2 px-3 px-xl-5 g-2 d-none d-md-flex">
+                    <div style="padding-top: 80px; margin-top: -68px;">
+                        <div class="row bg-dark pt-3 pb-2" style="border-bottom: 1px solid black;">
+                            <div id="test-header py-4" class="col-2 col-xxl-1 h4 bold">Test</div>
+                            <div id="error-header py-4" class="col-3 h4 bold">Error Condition</div>
+                            <div id="causes-header py-4" class="col-3 col-xxl-4 h4 bold">Causes</div>
+                            <div id="importance-header py-4" class="col-4 h4 bold">Importance</div>
+                        </div>
+                        <div class="row bg-dark py-2" style="border-bottom: 1px solid black;">
+                            <div class="col-2 col-xxl-1">Test 1</div>
+                            <div class="col-3">heat exchanger temperature is not between inlet and outlet temperature</div>
+                            <div class="col-3 col-xxl-4">faulty sensors or dirty heat exchanger</div>
+                            <div class="col-4">heat exchanger heats the water from the inlet and releases it at the outlet; needs 
+                                to occur regularly to produce heat efficiently
+                            </div>
+                        </div>
+                        <div class="row bg-dark py-2" style="border-bottom: 1px solid black;">
+                            <div class="col-2 col-xxl-1">Test 2</div>
+                            <div class="col-3">fan is on and inlet temperature is higher than outlet temperature</div>
+                            <div class="col-3 col-xxl-4">faulty sensors or flow of water is reversed</div>
+                            <div class="col-4">outlet temperature must be higher than inlet temperature to produce heat; if the fan
+                                is on, the unit is on, confirming the faulty equipment
+                            </div>
+                        </div>
+                        <div class="row bg-dark py-2" style="border-bottom: 1px solid black;">
+                            <div class="col-2 col-xxl-1">Test 3</div>
+                            <div class="col-3">heat exchanger temperature is constant while exhaust temperature is not</div>
+                            <div class="col-3 col-xxl-4">faulty sensor</div>
+                            <div class="col-4">unit is running or exhaust gases are coming from another boiler</div>
+                        </div>
+                        <div class="row bg-dark py-2" style="border-bottom: 1px solid black;">
+                            <div class="col-2 col-xxl-1">Test 4</div>
+                            <div class="col-3">fan speed is increasing while flame signal is decreasing, vice versa</div>
+                            <div class="col-3 col-xxl-4">faulty flame ignition rod, polarity is backwards, or faulty sensor</div>
+                            <div class="col-4">unit is not igniting at the correct time</div>
+                        </div>
+                        <div class="row bg-dark py-2" style="border-bottom: 1px solid black;">
+                            <div class="col-2 col-xxl-1">Test 5</div>
+                            <div class="col-3">outlet temperature is higher than inlet temperature and flame signal is 0</div>
+                            <div class="col-3 col-xxl-4">incorrect value position and/or pump operation</div>
+                            <div class="col-4">water is passing through the exchanger while unit is off or the exchanger is flowing through an off piece
+                                of equipment
+                            </div>
+                        </div>
+                        <div class="row bg-dark py-2" style="border-bottom: 1px solid black;">
+                            <div class="col-2 col-xxl-1">Test 6</div>
+                            <div class="col-3">fan is off and outlet temperature is higher than inlet temperature</div>
+                            <div class="col-3 col-xxl-4">faulty fan signal and/or fan failed</div>
+                            <div class="col-4">fan is off while the unit is running, preventing the unit from cooling properly</div>
+                        </div>
+                        <div class="row bg-dark py-2" style="border-bottom: 1px solid black;">
+                            <div class="col-2 col-xxl-1">Test 7</div>
+                            <div class="col-3">firing rate is increasing while flame signal is decreasing, vice versa</div>
+                            <div class="col-3 col-xxl-4">faulty flame signal connections</div>
+                            <div class="col-4">unit is not igniting correctly</div>
+                        </div>
+                        <div class="row bg-dark py-2" style="border-bottom: 1px solid black;">
+                            <div class="col-2 col-xxl-1">Test 8</div>
+                            <div class="col-3">fan is on and firing rate is 0</div>
+                            <div class="col-3 col-xxl-4">fan is operating just before or just after ignition; if occurring abruptly, flame sensor is faulty, causing
+                                flame ignition failure
+                            </div>
+                            <div class="col-4">unit is not igniting correctly</div>
+                        </div>
+                        <div class="row bg-dark py-2" style="border-bottom: 1px solid black;">
+                            <div class="col-2 col-xxl-1">Test 9</div>
+                            <div class="col-3">fan is on and flame signal is 0</div>
+                            <div class="col-3 col-xxl-4">fan is operating just before or just after ignition; if occurring for long periods of time, fan is faulty</div>
+                            <div class="col-4">unit is not igniting correctly</div>
+                        </div>
+                        <div class="row bg-dark py-2" style="border-bottom: 1px solid black;">
+                            <div class="col-2 col-xxl-1">Test 10</div>
+                            <div class="col-3">positive firing rate and flame signal is 0</div>
+                            <div class="col-3 col-xxl-4">faulty flame sensor; incorrect wiring of ignition equipment</div>
+                            <div class="col-4">unit is firing at the incorrect time</div>
+                        </div>
+                        <div class="row bg-dark py-2" style="border-bottom: 1px solid black;">
+                            <div class="col-2 col-xxl-1">Test 11</div>
+                            <div class="col-3">flame signal changes drastically while fan is off</div>
+                            <div class="col-3 col-xxl-4">ignition equipment is faulty, dirty, or has bad connection; check ignition rod and sensor</div>
+                            <div class="col-4">unit is not igniting correctly</div>
+                        </div>
+                        <div class="row bg-dark py-2" style="border-bottom: 1px solid black;">
+                            <div class="col-2 col-xxl-1">Test 12</div>
+                            <div class="col-3">duration for flame signal is less than 10 minutes at a time</div>
+                            <div class="col-3 col-xxl-4">boiler is short cycling; unit is operating too quickly and/or firing time is too short</div>
+                            <div class="col-4">short cycling reduces efficiency</div>
+                        </div>
+                        <div class="row bg-dark py-2">
+                            <div class="col-2 col-xxl-1">Test 13</div>
+                            <div class="col-3">fan is on and flame signal is 0 for over 90 seconds at a time</div>
+                            <div class="col-3 col-xxl-4">fan is acting erratically</div>
+                            <div class="col-4">unit is not igniting correctly; fan is not cooling properly</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row py-2 mx-2 px-3 px-xl-5 g-2 d-flex d-md-none">
+                    <div style="padding-top: 80px; margin-top: -68px;">
+                        <div class="accordion accordion-flush" id="test-accordion">
+                            <div class="accordion-item">
+                                <h4 class="accordion-header" id="test1-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#test1" aria-expanded="false" aria-controls="test1">
+                                        <p class="h5 bold">Test 1</p>
+                                    </button>
+                                </h4>
+                                <div id="test1" class="accordion-collapse collapse" aria-labeledby="test1-header">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><b>Error Condition</b>: heat exchanger temperature is not between inlet and outlet temperature</li>
+                                            <li><b>Causes</b>: faulty sensors or dirty heat exchanger</li>
+                                            <li><b>Importance</b>: heat exchanger heats the water from the inlet and releases it at the outlet; needs 
+                                            to occur regularly to produce heat efficiently</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h4 class="accordion-header" id="test2-header">
+                                    <button class="accordion-button collapsed bold" type="button" data-bs-toggle="collapse" data-bs-target="#test2" aria-expanded="false" aria-controls="test2">
+                                        <p class="h5 bold">Test 2</p>
+                                    </button>
+                                </h4>
+                                <div id="test2" class="accordion-collapse collapse" aria-labeledby="test2-header">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><b>Error Condition</b>: fan is on and inlet temperature is higher than outlet temperature</li>
+                                            <li><b>Causes</b>: faulty sensors or flow of water is reversed</li>
+                                            <li><b>Importance</b>: outlet temperature must be higher than inlet temperature to produce heat; if the fan
+                                            is on, the unit is on, confirming the faulty equipment</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h4 class="accordion-header" id="test3-header">
+                                    <button class="accordion-button collapsed bold" type="button" data-bs-toggle="collapse" data-bs-target="#test3" aria-expanded="false" aria-controls="test3">
+                                        <p class="h5 bold">Test 3</p>
+                                    </button>
+                                </h4>
+                                <div id="test3" class="accordion-collapse collapse" aria-labeledby="test3-header">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><b>Error Condition</b>: heat exchanger temperature is constant while exhaust temperature is not</li>
+                                            <li><b>Causes</b>: faulty sensor</li>
+                                            <li><b>Importance</b>: unit is running or exhaust gases are coming from another boiler</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h4 class="accordion-header" id="test4-header">
+                                    <button class="accordion-button collapsed bold" type="button" data-bs-toggle="collapse" data-bs-target="#test4" aria-expanded="false" aria-controls="test4">
+                                        <p class="h5 bold">Test 4</p>
+                                    </button>
+                                </h4>
+                                <div id="test4" class="accordion-collapse collapse" aria-labeledby="test4-header">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><b>Error Condition</b>: fan speed is increasing while flame signal is decreasing, vice versa</li>
+                                            <li><b>Causes</b>: faulty flame ignition rod, polarity is backwards, or faulty sensor</li>
+                                            <li><b>Importance</b>: unit is not igniting at the correct time</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h4 class="accordion-header" id="test5-header">
+                                    <button class="accordion-button collapsed bold" type="button" data-bs-toggle="collapse" data-bs-target="#test5" aria-expanded="false" aria-controls="test5">
+                                        <p class="h5 bold">Test 5</p>
+                                    </button>
+                                </h4>
+                                <div id="test5" class="accordion-collapse collapse" aria-labeledby="test5-header">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><b>Error Condition</b>: outlet temperature is higher than inlet temperature and flame signal is 0</li>
+                                            <li><b>Causes</b>: incorrect value position and/or pump operation</li>
+                                            <li><b>Importance</b>: water is passing through the exchanger while unit is off or the exchanger is flowing through an off piece
+                                            of equipment</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h4 class="accordion-header" id="test6-header">
+                                    <button class="accordion-button collapsed bold" type="button" data-bs-toggle="collapse" data-bs-target="#test6" aria-expanded="false" aria-controls="test6">
+                                        <p class="h5 bold">Test 6</p>
+                                    </button>
+                                </h4>
+                                <div id="test6" class="accordion-collapse collapse" aria-labeledby="test6-header">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><b>Error Condition</b>: fan is off and outlet temperature is higher than inlet temperature</li>
+                                            <li><b>Causes</b>: faulty fan signal and/or fan failed</li>
+                                            <li><b>Importance</b>: fan is off while the unit is running, preventing the unit from cooling properly</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h4 class="accordion-header" id="test7-header">
+                                    <button class="accordion-button collapsed bold" type="button" data-bs-toggle="collapse" data-bs-target="#test7" aria-expanded="false" aria-controls="test7">
+                                        <p class="h5 bold">Test 7</p>
+                                    </button>
+                                </h4>
+                                <div id="test7" class="accordion-collapse collapse" aria-labeledby="test7-header">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><b>Error Condition</b>: firing rate is increasing while flame signal is decreasing, vice versa</li>
+                                            <li><b>Causes</b>: faulty flame signal connections</li>
+                                            <li><b>Importance</b>: unit is not igniting correctly</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h4 class="accordion-header" id="test8-header">
+                                    <button class="accordion-button collapsed bold" type="button" data-bs-toggle="collapse" data-bs-target="#test8" aria-expanded="false" aria-controls="test8">
+                                        <p class="h5 bold">Test 8</p>
+                                    </button>
+                                </h4>
+                                <div id="test8" class="accordion-collapse collapse" aria-labeledby="test8-header">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><b>Error Condition</b>: fan is on and firing rate is 0</li>
+                                            <li><b>Causes</b>: fan is operating just before or just after ignition; if occurring abruptly, flame sensor is faulty, causing
+                                            flame ignition failure</li>
+                                            <li><b>Importance</b>: unit is not igniting correctly</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h4 class="accordion-header" id="test9-header">
+                                    <button class="accordion-button collapsed bold" type="button" data-bs-toggle="collapse" data-bs-target="#test9" aria-expanded="false" aria-controls="test9">
+                                        <p class="h5 bold">Test 9</p>
+                                    </button>
+                                </h4>
+                                <div id="test9" class="accordion-collapse collapse" aria-labeledby="test9-header">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><b>Error Condition</b>: fan is on and flame signal is 0</li>
+                                            <li><b>Causes</b>: fan is operating just before or just after ignition; if occurring for long periods of time, fan is faulty</li>
+                                            <li><b>Importance</b>: unit is not igniting correctly</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h4 class="accordion-header" id="test10-header">
+                                    <button class="accordion-button collapsed bold" type="button" data-bs-toggle="collapse" data-bs-target="#test10" aria-expanded="false" aria-controls="test10">
+                                        <p class="h5 bold">Test 10</p>
+                                    </button>
+                                </h4>
+                                <div id="test10" class="accordion-collapse collapse" aria-labeledby="test10-header">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><b>Error Condition</b>: positive firing rate and flame signal is 0</li>
+                                            <li><b>Causes</b>: faulty flame sensor; incorrect wiring of ignition equipment</li>
+                                            <li><b>Importance</b>: unit is firing at the incorrect time</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h4 class="accordion-header" id="test11-header">
+                                    <button class="accordion-button collapsed bold" type="button" data-bs-toggle="collapse" data-bs-target="#test11" aria-expanded="false" aria-controls="test11">
+                                        <p class="h5 bold">Test 11</p>
+                                    </button>
+                                </h4>
+                                <div id="test11" class="accordion-collapse collapse" aria-labeledby="test11-header">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><b>Error Condition</b>: flame signal changes drastically while fan is off</li>
+                                            <li><b>Causes</b>: ignition equipment is faulty, dirty, or has bad connection; check ignition rod and sensor</li>
+                                            <li><b>Importance</b>: unit is not igniting correctly</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h4 class="accordion-header" id="test12-header">
+                                    <button class="accordion-button collapsed bold" type="button" data-bs-toggle="collapse" data-bs-target="#test12" aria-expanded="false" aria-controls="test12">
+                                        <p class="h5 bold">Test 12</p>
+                                    </button>
+                                </h4>
+                                <div id="test12" class="accordion-collapse collapse" aria-labeledby="test12-header">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><b>Error Condition</b>: duration for flame signal is less than 10 minutes at a time</li>
+                                            <li><b>Causes</b>: boiler is short cycling; unit is operating too quickly and/or firing time is too short</li>
+                                            <li><b>Importance</b>: short cycling reduces efficiency</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h4 class="accordion-header" id="test13-header">
+                                    <button class="accordion-button collapsed bold" type="button" data-bs-toggle="collapse" data-bs-target="#test13" aria-expanded="false" aria-controls="test13">
+                                        <p class="h5 bold">Test 13</p>
+                                    </button>
+                                </h4>
+                                <div id="test13" class="accordion-collapse collapse" aria-labeledby="test13-header">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><b>Error Condition</b>: fan is on and flame signal is 0 for over 90 seconds at a time</li>
+                                            <li><b>Causes</b>: fan is acting erratically</li>
+                                            <li><b>Importance</b>: unit is not igniting correctly; fan is not cooling properly</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button onclick="toTop()" id="top-btn" title="Go to top" class="btn btn-secondary"><i class="fa-solid fa-arrow-up"></i></button>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/help.js') }}" defer></script>
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/help.css') }}">
+{% endblock %}

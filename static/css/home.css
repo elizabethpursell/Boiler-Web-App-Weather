@@ -1,0 +1,33 @@
+.login-bg{
+    background-color: white;
+    color: black;
+    height: 565px;
+    width: 400px;
+    text-align: center;
+    border-radius: 12px;
+}
+
+.y-center-login{
+    display: flex;
+    align-items: center;
+    height: 100vh;
+}
+
+.home-img{
+    height: 150px;
+    width: 150px;
+}
+
+@media (min-width: 991.98px){
+    .home-div{
+        margin-left: -260px;
+        margin-right: -20px;
+    }
+}
+
+@media (max-width: 500px){
+    .login-bg{
+        height: 550px;
+        width: 300px;
+    }
+}

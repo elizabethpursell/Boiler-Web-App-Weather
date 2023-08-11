@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+    NURO Analysis | Available Boilers
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h2 id="error" class="text-center my-4"></h2>
+    </div>
+    {% if authenticated %}
+        <div class="row">
+            <h1 id="pageTitle" class="bold text-center my-4">Your Available Boilers</h1>
+        </div>
+        <div id="loadingSpinner" class="row">
+            <div class="row">
+                <div class="x-center y-center">
+                    <div class="loading text-center">
+                        <h2 class="bold" style="font-size: 1.6em; letter-spacing: .1em; margin: 2px; text-transform: uppercase;">Gathering Boiler Data</h2>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div id="data" class="row mx-auto x-center" style="max-width:2300px;"></div>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/availableBoilers.js') }}" defer></script>
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/availableBoilers.css') }}">
+{% endblock %}
