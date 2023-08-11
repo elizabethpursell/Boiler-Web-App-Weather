@@ -237,21 +237,6 @@ class NuroConnect:
             json_data = json.load(f)
             return json_data[status]['text']
 
-    def experimental(self):
-        if self.isAuthenticated():
-            # params = {
-            #     "filter": '{"where": {"receivedDate":{"gte":"' + str(startTime) + '","lt":"' + str(endTime) + '"}}, "order":"receivedDate DESC", "skip": 0, "limit": 360, "interval": ' + str(interval) + '}'
-            # }
-            boilerID = '0d134902-b2f6-4c6b-8820-5c5071df80d0'
-            siteID = '51d97a7a-4e1f-4388-a6e9-7c4582f16c15'
-            headers = {"authorization": self.auth}
-            r = requests.get(self.endpoint + "/#!/boiler-details/" + siteID + "/" + boilerID, headers=headers, verify=False)
-
-            if r.ok:
-                return r.text
-        else:
-            raise UnauthenticatedException()
-
     def getUser(self, id, userId):
         headers = {"authorization": id}
         r = requests.get(self.endpoint + "/api/users/" + userId, headers=headers, verify=False)
