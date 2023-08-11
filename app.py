@@ -214,6 +214,14 @@ def analyzeDataPost():
         if rawData == None or rawData == "[]":
             return {"success": False}
 
+        # get weather data for site
+        userId = request.cookies.get('userId')
+        nc.getSites(id, userId)
+        coords = nc.getSiteCoords(boiler_info["siteId"])
+        if coords != None:
+            dailyWeather = nc.getDailyWeather(start_time, end_time, boiler_info["siteId"])
+            hourlyWeather = nc.getHourlyWeather(start_time, end_time, boiler_info["siteId"])
+
         # clean and analyze boiler data
         result = {}
         cleanData = analyzeRecentData.cleanRawData(rawData, interval)
@@ -230,7 +238,23 @@ def analyzeDataPost():
         result["test11"] = analyzeRecentData.test11(cleanData)
         result["test12"] = analyzeRecentData.test12(cleanData)
         result["test13"] = analyzeRecentData.test13(cleanData)
+        try:
+            result["test14"] = analyzeRecentData.test14(cleanData, dailyWeather)
+        except:
+            print("Test 14 failed -- graph not displayed")
         return json.dumps(result)
+    else:
+        return {"success": False}
+    
+@app.route('/analyze-weather-post', methods=['POST'])
+def analyzeWeatherPost():
+    authenticated = request.cookies.get('authenticated')
+    if(authenticated == 'true'):
+        # get weather data for site
+        try:
+            return nc.__dict__["dailyWeather"].to_json(orient="index", date_format="iso")
+        except:
+            return {"success": False}
     else:
         return {"success": False}
 

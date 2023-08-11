@@ -2,7 +2,8 @@ import requests
 import json
 import os
 from datetime import datetime, timedelta, timezone
-
+from meteostat import Point, Daily, Hourly
+import config     # for API information
 
 class UnauthenticatedException(Exception):
     pass
@@ -35,6 +36,13 @@ class NuroConnect:
         self.sites = None
 
         self.username = None
+        
+        self.coordsAPI = config.coordsAPI
+        self.coordsKey = config.coordsKey
+        self.coords = None
+        
+        self.dailyWeather = None
+        self.hourlyWeather = None
 
 
     def login(self, username, password):
@@ -103,6 +111,77 @@ class NuroConnect:
                     boilers.append(boiler)
 
         return boilers
+    
+    
+    # gets latitude and longitude of location
+    def getSiteCoords(self, siteID):
+        address = ""
+        keys = ["address", "city", "state", "zip"]
+        for k in keys:
+            if self.sites[siteID][k]:
+                if address:
+                    address += " "
+                address += self.sites[siteID][k]
+        
+        params = {"key": self.coordsKey, "location": address}
+        r = requests.get(self.coordsAPI, params=params, verify=False)
+        if r.ok and r.json()["info"]["statuscode"] == 0:
+            response = r.json()
+            self.coords = {}
+            for loc in response["results"]:
+                self.coords[siteID] = loc["locations"][0]["latLng"]
+                
+        return self.coords
+    
+    # meteostat python library for daily weather data
+    def getDailyWeather(self, startDate, endDate, siteID):
+        startDate = startDate.split("T")[0]
+        endDate = endDate.split("T")[0]
+        start = datetime.strptime(startDate, "%Y-%m-%d")
+        end = datetime.strptime(endDate, "%Y-%m-%d")
+        location = Point(float(str(self.coords[siteID]["lat"])), float(str(self.coords[siteID]["lng"])))
+        data = Daily(location, start, end)
+        data = data.fetch()
+        
+        # convert to fahrenheit, inches, mph, psi
+        data["tavgF_day"] = data.apply(lambda df: (9 / 5) * df["tavg"] + 32, axis = 1)
+        data["tminF_day"] = data.apply(lambda df: (9 / 5) * df["tmin"] + 32, axis = 1)
+        data["tmaxF_day"] = data.apply(lambda df: (9 / 5) * df["tmax"] + 32, axis = 1)
+        data["prcpIN_day"] = data.apply(lambda df: df["prcp"] / 25.4, axis = 1)
+        data["wspdMPH_day"] = data.apply(lambda df: df["wspd"] / 1.609344, axis = 1)
+        data["presPSI_day"] = data.apply(lambda df: df["pres"] / 68.947, axis = 1)
+    
+        # drop NaN columns
+        data.drop(["snow", "wpgt", "tsun"], axis=1, inplace=True)
+        
+        # calculate heating degree days
+        data["hdd"] = data.apply(lambda df: float(65 - df["tavgF_day"]) if (65 - df["tavgF_day"] > 0) else float(0), axis = 1)
+        
+        self.dailyWeather = data
+        return self.dailyWeather
+    
+    # meteostat python library for hourly weather data
+    def getHourlyWeather(self, startDate, endDate, siteID):
+        startDate = startDate.split("T")[0]
+        endDate = endDate.split("T")[0]
+        start = datetime.strptime(startDate, "%Y-%m-%d")
+        end = datetime.strptime(endDate, "%Y-%m-%d")
+        location = Point(float(str(self.coords[siteID]["lat"])), float(str(self.coords[siteID]["lng"])))
+        data = Hourly(location, start, end)
+        data = data.fetch()
+        
+        # convert to fahrenheit, inches, mph, psi -- original in celsius, mm, km/h, hPa
+        data["tempF_hour"] = data.apply(lambda df: (9 / 5) * df["temp"] + 32, axis = 1)
+        data["dwptF_hour"] = data.apply(lambda df: (9 / 5) * df["dwpt"] + 32, axis = 1)
+        data["prcpIN_hour"] = data.apply(lambda df: df["prcp"] / 25.4, axis = 1)
+        data["wspdMPH_hour"] = data.apply(lambda df: df["wspd"] / 1.609344, axis = 1)
+        data["presPSI_hour"] = data.apply(lambda df: df["pres"] / 68.947, axis = 1)
+        
+        # drop NaN columns
+        data.drop(["snow", "wpgt", "tsun"], axis=1, inplace=True)
+    
+        self.hourlyWeather = data
+        return self.hourlyWeather
 
 
     def getBoilerInfo(self, id, boilerID):

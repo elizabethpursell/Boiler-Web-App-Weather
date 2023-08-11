@@ -86,6 +86,10 @@ function showSummary(){
                     "interval": select
                 }
             });
+            dailyWeather = await $.ajax({
+                url: "/analyze-weather-post",
+                type: "Post"
+            });
             loadingSpinner.hide();
             
             if(response.success == undefined){
@@ -175,6 +179,64 @@ function showSummary(){
                     test.append(info);
                     test.append(graph);
                     data.append(test)
+                }
+                
+                // add daily weather data
+                if(dailyWeather.success == undefined){
+                    dailyWeather = JSON.parse(dailyWeather);
+                    let weatherKeys = Object.keys(dailyWeather);
+                    let weatherTable = $("<div class='container border test-wrapper mt-3 mb-5 mx-auto'></div>");
+                    let title = $("<div class='row border bg-secondary'></div>");
+                    title.append(
+                        `<div class="col my-1 py-2"><h3 class="bold">Daily Weather Data</h3></div>`
+                    );
+                    let table = $("<div class='row border d-none d-md-flex'></div>");
+                    let dropdown = $("<div class='row border d-flex d-md-none bg-light'></div>");
+                    let columns = Object.keys(dailyWeather[weatherKeys[0]]);
+                    let columnLabels = { "wdir": { "title": "Wind Direction", "units": "\xB0" }, "tavgF_day": { "title": "Avg Temp", "units": "\xB0F" }, 
+                        "tminF_day": { "title": "Min Temp", "units": "\xB0F" }, "tmaxF_day": { "title": "Max Temp", "units": "\xB0F" }, 
+                        "prcpIN_day": { "title": "Precipitation", "units": "in" }, "wspdMPH_day": { "title": "Wind Speed", "units": "mph" },
+                        "presPSI_day": { "title": "Pressure", "units": "psi" }, "hdd": {"title": "HDD", "units": ""} }
+                    let keepColumns = Object.keys(columnLabels)
+                    
+                    let row = '<div class="row py-2 border-bottom ms-0 fs-5"><div class="col bold">Date</div>';
+                    for(let i = 0; i < columns.length; i++){
+                        if(keepColumns.includes(columns[i])){
+                            row += `<div class="col bold overflow" onclick="showOverflow(this)">${columnLabels[columns[i]]["title"]}</div>`;
+                        }
+                    }
+                    row += '</div>';
+                    table.append(row);
+                    
+                    let accordion = `<div class="accordion accordion-flush bg-light" id="weather-accordion">`;
+                    for(let i = 0; i < weatherKeys.length; i++){
+                        let date = weatherKeys[i].split("T")[0];
+                        let yyyy_mm_dd = date.split("-");
+                        let year = yyyy_mm_dd[0].split("");
+                        let item = `<div class="accordion-item"><h5 class="accordion-header" id="date${date}-header"><button class="accordion-button bg-light collapsed" 
+                            type="button" data-bs-toggle="collapse" data-bs-target="#date${date}" aria-expanded="false" aria-controls="date${date}">
+                            <p class="h5 bold">${yyyy_mm_dd[1]}/${yyyy_mm_dd[2]}/${year[2]}${year[3]}</p></button></h5><div id="date${date}" 
+                            class="accordion-collapse collapse" aria-labeledby="date${date}-header"><div class="accordion-body"><ul>`;
+                        row = `<div class="row py-2 border-bottom ms-0"><div class="col">${yyyy_mm_dd[1]}/${yyyy_mm_dd[2]}/${year[2]}${year[3]}</div>`;
+                        for(let j = 0; j < columns.length; j++){
+                            if(keepColumns.includes(columns[j])){
+                                let value = dailyWeather[weatherKeys[i]][columns[j]].toFixed(2);
+                                item += `<li><b>${columnLabels[columns[j]]["title"]}</b>: ${value} ${columnLabels[columns[j]]["units"]}</li>`
+                                row += `<div class="col">${value} ${columnLabels[columns[j]]["units"]}</div>`
+                            }
+                        }
+                        item += "</ul></div></div></div>"
+                        row += "</div>";
+                        table.append(row);
+                        accordion += item;
+                    }
+                    
+                    accordion += "</div>"
+                    dropdown.append(accordion);
+                    weatherTable.append(title);
+                    weatherTable.append(table);
+                    weatherTable.append(dropdown)
+                    data.append(weatherTable);
                 }
                 
                 let errorModal = new bootstrap.Modal(document.getElementById("error-modal"), {});

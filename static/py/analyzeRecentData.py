@@ -356,6 +356,34 @@ def checkDuration(checkSet, data, timeLimit, checkLimit):
         
     checkSet = checkSet.drop([checkSet.index[j] for j in removeRows])
     return checkSet
+
+# adds dailyWeather/hourlyWeather to data
+def addWeatherData(data, weatherData):
+        
+    def f(row, date, value, default, setName):
+        if row["date"] >= date and row["status"] == "default":
+            return value
+        elif row["status"] == "filled":
+            return row[setName]
+        else:
+            return default
+    
+    def g(row, date):
+        if row["date"] >= date:
+            return "filled"
+        else:
+            return "default"
+    
+    # add values to all times between weatherData rows
+    for col in weatherData.columns:
+        data["status"] = "default"
+        for date in reversed(weatherData.index):
+            default = float(weatherData[col].iloc[0])
+            value = float(weatherData[col].loc[date])
+            data.loc[:, col] = data.apply(f, args=(date, value, default, col), axis=1)
+            data.loc[:, "status"] = data.apply(g, args=([date]), axis=1)
+        
+    return data
         
 def test1(data):
     errorSet = data[(data.hx >= data.supply) | (data.hx <= data.inlet)]
@@ -773,5 +801,37 @@ def test13(data):
             "right" : "Fan Speed (RPM)"
         }
     errorMsg = "Faulty fan"
+
+    return runTest(data, errorSet, warningSet, title, sets, testOptions, axisTitles, errorMsg)
+
+def test14(data, dailyWeather):
+    data = addWeatherData(data, dailyWeather)
+    errorSet = data[(data["hdd"] == 0) & (data["fan"] > 0)]
+    warningSet = data[(data["fan"] > 2000) & (data["hdd"] < 10)]
+    title = "Heating degree days are 0 while fan speed is positive"
+    sets = ["hdd", "fan"]
+    testOptions = {
+            "hdd" : {
+                    "title" : "Heating Degree Days [left]",
+                    "axisID" : "left",
+                    "thresholdLabel" : "< 10 HDD",
+                    "thresholdType" : "default",
+                    "thresholdFill" : "below",
+                    "warnVal" : 10
+                },
+            "fan" : {
+                    "title" : "Fan Speed [right]",
+                    "axisID" : "right",
+                    "thresholdLabel" : "> 2000 RPM",
+                    "thresholdType" : "default",
+                    "thresholdFill" : "above",
+                    "warnVal" : 2000
+                }
+        }
+    axisTitles = {
+            "left" : "Heating Degree Days (HDD)",
+            "right" : "Fan Speed (RPM)"
+        }
+    errorMsg = "Unit is running when unnecessary"
 
     return runTest(data, errorSet, warningSet, title, sets, testOptions, axisTitles, errorMsg)
